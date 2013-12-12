@@ -22,6 +22,10 @@ void moveForward();
 
 void moveBackwards();
 
+void slowLeftMotor();
+
+void slowRightMotor();
+
 
 
 #endif /* MOTORMOVEMENT_H_ */

@@ -2,7 +2,7 @@
 #include "MotorMovement.h"
 #include "Sensors.h"
 
-unsigned int leftSensorValue, rightSensorValue;
+int leftSensorValue, rightSensorValue, centerSensorValue;
 
 /*
  * main.c
@@ -10,31 +10,47 @@ unsigned int leftSensorValue, rightSensorValue;
 
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
+      initializePWM();
       initializeADC10();
       P1DIR |= BIT0; //Set P1.0 and P1.6 to output
       P1DIR |= BIT6;
  for(;;){
-    	  leftSensorValue = getLeftSensorValue();
+//    	  leftSensorValue = getLeftSensorValue();
+//    	  rightSensorValue = getRightSensorValue();
+//    	  centerSensorValue = getCenterSensorValue();
 
-    	  if(leftSensorValue > threshhold){
+
+    	  if(getLeftSensorValue() < threshhold){
     		  P1OUT &= ~BIT0;
     		  smallLeft();
+    		  __delay_cycles(10000);
     	  }
     	  else{
-    		  P1OUT |=BIT0;
-    		  moveForward();
-    		      	  }
+    	    		  smallRight();
+    	    		  __delay_cycles(10000);
+    	    		  P1OUT |=BIT0;
+    	    		      	  }
+       	  if(getCenterSensorValue() > threshhold1){
+       		  moveBackwards();
+       		  __delay_cycles(30000);
+    		  P1OUT &= ~BIT0;
+    		  largeRight();
+    		  //__delay_cycles(20000);
+    	  }
 
 
-    	  rightSensorValue = getRightSensorValue();
-    	  if(rightSensorValue > threshhold){
-    		  P1OUT &= ~BIT6;
-    		  smallRight();
-    	  }
-    	  else{
-    		  P1OUT |= BIT6;
-    		  moveForward();
-    	  }
+
+
+    	  //if(rightSensorValue > threshhold){
+    		  //P1OUT &= ~BIT6;
+    		  //smallRight();
+    		  //__delay_cycles(10000);
+    	  //}
+    	  //else{
+    		  //P1OUT |= BIT6;
+    		  //moveForward();
+    		  //__delay_cycles(10000);
+    	  //}
       }
 
       return 0;

@@ -46,12 +46,12 @@ void initializePWM(){
 	}
 
 	void LeftMotorForward(){
-	        TA0CCR1 = 70; //C2C Mossing explained simplicity of this part
+	        TA0CCR1 = 55; //C2C Mossing explained simplicity of this part
 	        TA1CCR2 = 0;
 	}
 
 	void RightMotorForward(){
-	        TA1CCR1 = 70;
+	        TA1CCR1 = 55;
 	        TA1CCR2 = 0;
 	}
 
@@ -70,17 +70,20 @@ void initializePWM(){
 	        stopRightMotor();
 	        TA1CCR2 = 70;
 	}
-	void smallLeft(){
-	        stopLeftMotor();
-	        __delay_cycles(500000);
-	        LeftMotorForward();
+	void slowLeftMotor(){
+		 TA0CCR1 = 30;
 
 	}
-
-	void smallRight(){
-	        stopRightMotor();
-	        __delay_cycles(500000);
+	void smallLeft(){
+	        slowLeftMotor();
 	        RightMotorForward();
+	}
+	void slowRightMotor(){
+			TA1CCR1 = 30;
+	}
+	void smallRight(){
+	        slowRightMotor();
+	        LeftMotorForward();
 	}
 
 	void largeLeft(){
@@ -90,8 +93,9 @@ void initializePWM(){
 	}
 
 	void largeRight(){
+			LeftMotorForward();
 	        stopRightMotor();
-	        __delay_cycles(1500000);
+	        __delay_cycles(100000);
 	        RightMotorForward();
 	}
 
